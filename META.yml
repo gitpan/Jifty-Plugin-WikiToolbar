@@ -19,7 +19,8 @@ no_index:
     - inc
     - t
 requires:
-  Jifty: 0.70416
+  Jifty: 0.91117
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.9
+  repository: git@github.com:yvesago/jifty-plugin-wikitoolbar.git
+version: 1.00

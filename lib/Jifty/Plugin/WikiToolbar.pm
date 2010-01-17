@@ -4,7 +4,7 @@ use warnings;
 package Jifty::Plugin::WikiToolbar;
 use base qw/Jifty::Plugin/;
 
-our $VERSION = '0.9';
+our $VERSION = '1.00';
 
 =head1 NAME
 
@@ -23,11 +23,11 @@ In your Model instead of
 
 use
 
-  render_as 'Jifty::Plugin::WikiToolbar::Textarea';
+   is WikiToolbar;
 
 or you can custom rows size with
 
- sub Jifty::Plugin::WikiToolbar::Textarea::rows { return 5; };
+ sub Jifty::Plugin::WikiToolbar::Textarea::rows { return 15; };
 
 To custom the toolbar, copy wikitoolbar.js in your application, at the end of the file put your changes with addButton function.
 
@@ -49,7 +49,21 @@ sub init {
     @{ Jifty->web->javascript_libs },
     "wikitoolbar.js",
     ]);
-}
+};
+
+use Jifty::DBI::Schema;
+
+sub _toolbar {
+        my ($column, $from) = @_;
+        my $name = $column->name;
+        $column->type('text');
+};
+
+Jifty::DBI::Schema->register_types(
+    WikiToolbar =>
+       sub { _init_handler is \&_toolbar, render_as 'Jifty::Plugin::WikiToolbar::Textarea' },
+);
+
 
 =head1 AUTHOR
 
@@ -57,7 +71,7 @@ Yves Agostini, <yvesago@cpan.org>
 
 =head1 LICENSE
 
-Copyright 2007-2009 Yves Agostini. All Rights Reserved.
+Copyright 2007-2010, Yves Agostini
 
 This program is free software and may be modified and distributed under the same terms as Perl itself.
 
